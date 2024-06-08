@@ -13,6 +13,8 @@ let zY = hHalf;
 let size = 100;
 let amt = 500;
 
+let zoomFac = 1;
+
 let xOff = 0;
 let yOff = 0;
 
@@ -61,6 +63,7 @@ let loop = () => {
 
 document.addEventListener("wheel", (e) => {
     zoom(e.deltaY/-138);
+    zoomFac += e.deltaY/138
 })
 
 let mousePosLast = [0, 0];
@@ -71,8 +74,8 @@ let mouseMoved = false;
 canvas.addEventListener("mousemove", (e) => {
     mouseMoved = true;
     if (mouseDown) {
-        xOff = mousePosBefore[0] + (e.clientX - mousePosLast[0]);
-        yOff = mousePosBefore[1] + (e.clientY - mousePosLast[1]);
+        xOff = (mousePosBefore[0] + (e.clientX - mousePosLast[0])) * zoomFac;
+        yOff = (mousePosBefore[1] + (e.clientY - mousePosLast[1])) * zoomFac;
         pixelCompute((square) => {
             square.x = square.ox + xOff / size;
             square.y = square.oy + yOff / size;
